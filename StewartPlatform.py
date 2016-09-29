@@ -8,6 +8,9 @@
 #   Yunzhou Li
 
 from math import *
+import matplotlib.pyplot as plt
+import numpy as np
+from basic_units import radians
 
 class StewartPlatform:
 
@@ -264,14 +267,16 @@ class StewartPlatform:
         return N1S + N2S - P1S * DS
 
     # Activity #2 - Plot f(theta) from -PI to PI
-    def plotF(self, theta):
+    def plotF(self, min, max):
 
-        import matplotlib.pyplot as plt
+        x = []
+        y = []
 
-        plt.plot([1, 2, 3, 4])
-        plt.ylabel('some numbers')
+        for i in np.arange(min, max, 0.001):
+            x.append(i*radians)
+            y.append(self.f(i))
+
+        plt.plot(x, y, xunits = radians)
+        plt.ylabel('f(theta)')
+        plt.xlabel("theta (Radians)")
         plt.show()
-
-    ### Tests
-
-        # TODO: Implement activity 1 test

@@ -4,6 +4,8 @@ from math import *
 
 def test1():
 
+    print("Test 1 - Verify Activity 1")
+
     stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
     stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
 
@@ -22,8 +24,20 @@ def test1():
         print("FAIL")
         assert()
 
-print("Test 1 - Verify Activity 1")
+def test2():
+
+    print("Test 2 - Verify Activity 2")
+
+    stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
+    stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
+
+    print("Plotting...")
+    stewie.plotF(-pi / 2.0, pi / 2.0)
+
+    print("PASS")
+
 test1()
+test2()
 
 
 
