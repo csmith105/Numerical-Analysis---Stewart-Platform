@@ -1,23 +1,22 @@
 # Numerical Analysis 1
-# Group project 1
+# Group project 1 - Stewart Platform
 #
 # Authors:
 #   Cody Smith
-#   xxx
-#   xxx
-#   xxx
+#   William Rooney
+#   David Andrews
+#   Yunzhou Li
 
 class StewartPlatform:
 
-    def __init__(self, l1, l2, l3, x1, x2, y1):
-
-        import math
+    def __init__(self, l1, l2, l3, x1, x2, y1, y2):
 
         # Set class members
         self.setL(l1, l2, l3)
         self.setX1(x1)
         self.setX2(x2)
         self.setY1(y1)
+        self.setY2(y2)
 
     ### Setters
 
@@ -32,6 +31,10 @@ class StewartPlatform:
     # Set y1
     def setY1(self, y1):
         self.y1 = y1
+
+    # Set y2
+    def setY2(self, y2):
+        self.y2 = y2
 
     # Set length 1
     def setL1(self, l1):
@@ -61,17 +64,80 @@ class StewartPlatform:
         # NOTE: Nine values need computed
 
         # Multiple solutions?
+        return
 
     # Given x, y and theta, compute p1, p2 and p3
     def inverseKinematics(self, x, y, theta):
 
         # Output p1, p2, p3
-    
+        return
+
     ### Private helper functions
 
-    def __P1(self):
+    def __P1Squared(self, x, y):
 
-    def __P2(self):
+        # p1 = x^2 + y^2
 
-    def __P3(self):
+        import math
 
+        return math.pow(x, 2) + math.pow(y, 2)
+
+    def __P2Squared(self, x, y, theta):
+
+        # p2^2 = (x + A2)^2 + (y + B2)^2
+
+        # Used for solving x and y
+        # p2^2 = x^2 + y^2 + 2 A2 x + 2 B2 y + A2^2 + B2^2
+        # p2^2 = p1^2 + 2 A2 x + 2 B2 y + A2^2 + B2^2
+
+        import math
+
+        return math.pow(x + self.__A2(theta), 2)\
+               + math.pow(y + self.__B2(), 2)
+
+    def __P3Squared(self, x, y, theta, gamma):
+
+        # p3 = (x + A3)^2 + (y + B3)^2
+
+        # Used for solving x and y
+        # p3^2 = x^2 + y^2 + 2 A3 x + 2 B3 y + A3^2 + B3^2
+        # p3^2 = = p1^2 + 2 A3 x + 2 B3 y + A3^2 + B3^2
+
+        import math
+
+        return math.pow(x + self.__A3(theta, gamma), 2)\
+               + math.pow(y + self.__B3(theta, gamma), 2)
+
+    def __A2(self, theta):
+
+        # A2 = L3 cos θ − x1
+
+        import math
+
+        return self.l3() * math.cos(theta) - self.x1
+
+    def __A3(self, theta, gamma):
+
+        # A3 = L2 cos(θ + γ) − x2
+        # A3 = L2[cos θ cos γ − sin θ sin γ] − x2
+
+        import math
+
+        return self.l2 * math.cos(theta - gamma) - self.x2
+
+    def __B2(self, theta):
+
+        # B2 = L3 sin θ
+
+        import math
+
+        return self.l3 * math.sin(theta)
+
+    def __B3(self, theta, gamma):
+
+        # B3 = L2 sin(θ + γ) − y2
+        # B3 = L2[cos θ sin γ + sin θ cos γ] − y2
+
+        import math
+
+        return self.l2 * math.sin(theta + gamma) - self.y2
