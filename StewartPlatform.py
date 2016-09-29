@@ -7,9 +7,11 @@
 #   David Andrews
 #   Yunzhou Li
 
+from math import *
+
 class StewartPlatform:
 
-    def init(self, l1, l2, l3, gamma, x1, y1, x2, y2):
+    def __init__(self, l1, l2, l3, gamma, x1 = 0, y1 = 0, x2 = 0, y2 = 0):
 
         # Set class members
         self.setL(l1, l2, l3)
@@ -67,6 +69,12 @@ class StewartPlatform:
     def setP3(self, p3):
         self.p3 = p3
 
+    # Set all strut lengths
+    def setP(self, p1, p2, p3):
+        self.setP1(p1)
+        self.setP2(p2)
+        self.setP3(p3)
+
     def setGamma(self, gamma):
         self.gamma = gamma
 
@@ -83,8 +91,6 @@ class StewartPlatform:
 
     # Given x, y and theta, compute p1, p2 and p3
     def inverseKinematics(self, x, y, theta):
-
-        import math
 
         # Run the squared methods
         P1S = self.P1S(x, y)
@@ -104,8 +110,6 @@ class StewartPlatform:
 
         # p1 = x^2 + y^2
 
-        import math
-
         return math.pow(x, 2) + math.pow(y, 2)
 
     def P2S(self, x, y, theta):
@@ -115,8 +119,6 @@ class StewartPlatform:
         # Used for solving x and y
         # p2^2 = x^2 + y^2 + 2 A2 x + 2 B2 y + A2^2 + B2^2
         # p2^2 = p1^2 + 2 A2 x + 2 B2 y + A2^2 + B2^2
-
-        import math
 
         return math.pow(x + self.A2(theta), 2) + math.pow(y + self.B2(theta), 2)
 
@@ -128,71 +130,55 @@ class StewartPlatform:
         # p3^2 = x^2 + y^2 + 2 A3 x + 2 B3 y + A3^2 + B3^2
         # p3^2 = = p1^2 + 2 A3 x + 2 B3 y + A3^2 + B3^2
 
-        import math
-
         return math.pow(x + self.A3(theta), 2) + math.pow(y + self.B3(theta), 2)
 
     def A2(self, theta):
 
-        # A2 = L3 cos θ − x1
+        # A2 = L3 cos theta - x1
 
-        import math
-
-        return self.l3() * math.cos(theta) - self.x1
+        return self.l3 * cos(theta) - self.x1
 
     def A3(self, theta):
 
-        # A3 = L2 cos(θ + γ) − x2
-        # A3 = L2[cos θ cos γ − sin θ sin γ] − x2
+        # A3 = L2 cos(theta + gamma) - x2
 
-        import math
-
-        return self.l2 * math.cos(theta - self.gamma) - self.x2
+        return self.l2 * cos(theta - self.gamma) - self.x2
 
     def B2(self, theta):
 
-        # B2 = L3 sin θ
+        # B2 = L3 sin theta
 
-        import math
-
-        return self.l3 * math.sin(theta)
+        return self.l3 * sin(theta)
 
     def B3(self, theta):
 
-        # B3 = L2 sin(θ + γ) − y2
-        # B3 = L2[cos θ sin γ + sin θ cos γ] − y2
+        # B3 = L2 sin(theta + gamma) - y2
 
-        import math
-
-        return self.l2 * math.sin(theta + self.gamma) - self.y2
+        return self.l2 * sin(theta + self.gamma) - self.y2
 
     def D(self, theta):
 
         # D = 2(A2 * B3 - B2 * A3)
 
-        import math
-
         return 2 * (self.A2(theta) * self.B3(theta) - self.B2(theta) * self.A3(theta))
 
     def N1(self, x, y, theta):
 
-        # N1 = B3(p2^2 − p1^2 − A2^2 − B2^2) − B2(p3^2 − p1^2 − A3^2 − B3^2)
-
-        import math
+        # N1 = B3(P2^2 - P1^2 - A2^2 - B2^2) - B2(P3^2 - P1^2 - A3^2 - B3^2)
 
         # Store results for A
         A2 = self.A2(theta)
-        A2S = math.pow(A2, 2)
+        A2S = pow(A2, 2)
 
         A3 = self.A3(theta)
-        A3S = math.pow(A3, 2)
+        A3S = pow(A3, 2)
 
         # Store results for B
         B2 = self.B2(theta)
-        B2S = math.pow(B2, 2)
+        B2S = pow(B2, 2)
 
         B3 = self.B3(theta)
-        B3S = math.pow(B3, 2)
+        B3S = pow(B3, 2)
 
         # Store results for P
         P1S = self.P1S(x, y)
@@ -203,23 +189,21 @@ class StewartPlatform:
 
     def N2(self, x, y, theta):
 
-        # N2 = −A3(p2^2 − p1^2 − A2^2 − B2^2) + A2(p3^2 − p1^2 − A3^2 − B3^2)
-
-        import math
+        # N2 = -A3(P2^2 - P1^2 - A2^2 - B2^2) + A2(P3^2 - P1^2 - A3^2 - B3^2)
 
         # Store results for A
         A2 = self.A2(theta)
-        A2S = math.pow(A2, 2)
+        A2S = pow(A2, 2)
 
         A3 = self.A3(theta)
-        A3S = math.pow(A3, 2)
+        A3S = pow(A3, 2)
 
         # Store results for B
         B2 = self.B2(theta)
-        B2S = math.pow(B2, 2)
+        B2S = pow(B2, 2)
 
         B3 = self.B3(theta)
-        B3S = math.pow(B3, 2)
+        B3S = pow(B3, 2)
 
         # Store results for P
         P1S = self.P1S(x, y)
@@ -244,48 +228,55 @@ class StewartPlatform:
 
         return self.N2(x, y, theta) / self.D(theta)
 
-    # Activity #1
+    # Activity #1 - Evaluate f(theta)
     def f(self, theta):
-
-        import math
 
         # Store results for A
         A2 = self.A2(theta)
-        A2S = math.pow(A2, 2)
+        A2S = pow(A2, 2)
 
         A3 = self.A3(theta)
-        A3S = math.pow(A3, 2)
+        A3S = pow(A3, 2)
 
         # Store results for B
         B2 = self.B2(theta)
-        B2S = math.pow(B2, 2)
+        B2S = pow(B2, 2)
 
         B3 = self.B3(theta)
-        B3S = math.pow(B3, 2)
+        B3S = pow(B3, 2)
 
         # Store results for P
         P1 = self.p1
-        P1S = math.pow(P1, 2)
+        P1S = pow(P1, 2)
 
         P2 = self.p2
-        P2S = math.pow(P2, 2)
+        P2S = pow(P2, 2)
 
         P3 = self.p3
-        P3S = math.pow(P3, 2)
+        P3S = pow(P3, 2)
 
         # Store results for N
-        N1 = B3(P2S - P1S - A2S - B2S) - B2(P3S - P1S - A3S - B3S)
-        N1S = math.pow(N1, 2)
+        N1 = B3 * (P2S - P1S - A2S - B2S) - B2 * (P3S - P1S - A3S - B3S)
+        N1S = pow(N1, 2)
 
-        N2 = (-A3)(P2S - P1S - A2S - B2S) + A2(P3S - P1S - A3S - B3S)
-        N2S = math.pow(N2, 2)
+        N2 = (-A3) * (P2S - P1S - A2S - B2S) + A2 * (P3S - P1S - A3S - B3S)
+        N2S = pow(N2, 2)
 
         # Store results for D
         D = self.D(theta)
-        DS = math.pow(D, 2)
+        DS = pow(D, 2)
 
         # Compute f
         return N1S + N2S - P2S * DS;
+
+    # Activity #2 - Plot f(theta) from -PI to PI
+    def plotF(self, theta):
+
+        import matplotlib.pyplot as plt
+
+        plt.plot([1, 2, 3, 4])
+        plt.ylabel('some numbers')
+        plt.show()
 
     ### Tests
 
