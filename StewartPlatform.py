@@ -141,3 +141,74 @@ class StewartPlatform:
         import math
 
         return self.l2 * math.sin(theta + gamma) - self.y2
+
+    def __D(self, theta, gamma):
+
+        # D = 2(A2 B3 - B2 A3)
+
+        import math
+
+        return 2 * (self.__A2(theta) * self.__B3(theta, gamma)
+                    - self.__B2(theta) * self.__A3(theta, gamma))
+
+    def __N1(self, x, y, theta, gamma):
+
+        # N1 = B3(p2^2 − p1^2 − A2^2 − B2^2) − B2(p3^2 − p1^2 − A3^2 − B3^2)
+
+        import math
+
+        A2 = self.__A2(theta)
+        A2S = math.pow(A2, 2)
+
+        A3 = self.__A3(theta, gamma)
+        A3S = math.pow(A3, 2)
+
+        B2 = self.__B2(theta)
+        B2S = math.pow(B2, 2)
+
+        B3 = self.__B3(theta, gamma)
+        B3S = math.pow(B3, 2)
+
+        P1S = self.__P1Squared(x, y)
+        P2S = self.__P2Squared(x, y, theta)
+        P3S = self.__P3Squared(x, y, theta, gamma)
+
+        return B3(P2S - P1S - A2S - A2S) - B2(P3S - P1S - A3S - B3S)
+
+    def __N2(self, x, y, theta, gamma):
+
+        # N2 = −A3(p2^2 − p1^2 − A2^2 − B2^2) + A2(p3^2 − p1^2 − A3^2 − B3^2)
+
+        import math
+
+        A2 = self.__A2(theta)
+        A2S = math.pow(A2, 2)
+
+        A3 = self.__A3(theta, gamma)
+        A3S = math.pow(A3, 2)
+
+        B2 = self.__B2(theta)
+        B2S = math.pow(B2, 2)
+
+        B3 = self.__B3(theta, gamma)
+        B3S = math.pow(B3, 2)
+
+        P1S = self.__P1Squared(x, y)
+        P2S = self.__P2Squared(x, y, theta)
+        P3S = self.__P3Squared(x, y, theta, gamma)
+
+        return (-A3)(P2S - P1S - A2S - B2S) + A2(P3S - P1S - A3S - B3S)
+
+    def __x(self, x, y, theta, gamma):
+
+        # x = N1 / D
+        # As long as D =/= 0
+
+        return self.__N1(x, y, theta, gamma) / self.__D(theta, gamma)
+
+    def __y(self, x, y, theta, gamma):
+
+        # y = N2 / D
+        # As long as D =/= 0
+
+        return self.__N2(x, y, theta, gamma) / self.__D(theta, gamma)
