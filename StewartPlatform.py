@@ -8,8 +8,8 @@
 #   Yunzhou Li
 
 from basic_units import radians
-from scipy.optimize import fsolve
-from numpy import sin, cos, pi
+from scipy.optimize import brentq, fsolve
+from numpy import sin, cos, pi, sqrt
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -93,7 +93,25 @@ class StewartPlatform:
 
     def solve(self):
 
-        return fsolve(self.f, [-pi, pi])
+        # From http://stackoverflow.com/questions/14878110/how-to-find-all-zeros-of-a-function-using-numpy-and-scipy
+
+        U = np.linspace(-pi, pi, 100)
+        c = self.f(U)
+        s = np.sign(c)
+        ret = []
+
+        for i in range(100 - 1):
+
+            if s[i] + s[i + 1] == 0:
+                u = brentq(self.f, U[i], U[i + 1])
+                z = self.f(u)
+
+                if np.isnan(z) or abs(z) > 1e-3:
+                    continue
+
+                ret.append(u)
+
+        return ret
 
     # Use the bisection method to solve the root
     # func - The function to evaluate
