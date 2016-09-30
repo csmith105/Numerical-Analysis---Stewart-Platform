@@ -36,8 +36,24 @@ def test2():
 
     print("PASS")
 
+def test3():
+
+    print("Test 3 - Verify Activity 3")
+
+    stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
+    stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
+
+    print("Solving...")
+    stewie.solve()
+
+    print("Plotting...")
+    stewie.plotTriangle()
+
+    print("PASS")
+
 test1()
 test2()
+test3()
 
 
 

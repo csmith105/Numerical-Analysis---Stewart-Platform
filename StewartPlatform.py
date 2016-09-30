@@ -8,9 +8,10 @@
 #   Yunzhou Li
 
 from math import *
+from basic_units import radians
+
 import matplotlib.pyplot as plt
 import numpy as np
-from basic_units import radians
 
 class StewartPlatform:
 
@@ -23,6 +24,7 @@ class StewartPlatform:
         self.setX2(x2)
         self.setY2(y2)
         self.setGamma(gamma)
+        self.debug = 0
 
     ### Setters
 
@@ -78,10 +80,76 @@ class StewartPlatform:
         self.setP2(p2)
         self.setP3(p3)
 
+    # Set theta
+    def setTheta(self, theta):
+        self.theta = theta
+
+    # Set gamma
     def setGamma(self, gamma):
         self.gamma = gamma
 
     ### Solvers
+
+    def solve(self):
+
+        self.setTheta(0)
+
+    # Use the bisection method to solve the root
+    # func - The function to evaluate
+    # min - The minimum value  of the root
+    # max - The maximum value of the root
+    # x - The starting value
+    # numItens - How many times to iterate
+    def bisect(func, min, max, x, numItens):
+
+        # a = myfun.eval(min)
+        a = -1
+
+        # For numItens iterations...
+        for i in range(0, numItens):
+
+            if(self.debug):
+                # Print the iteration value if debugging is on
+                print("Bisection #%i: " % (i) + str(min) + " " + str(max))
+
+            # Use the Bisection Method
+            mp = (min + max) / 2.0
+
+            # Evaluate the function at the new midpoint
+            b = func(mp)
+
+            # If we have two positive numbers: a, b
+            if(a * b > 0.0):
+
+                # Yes, discard lower range
+                min = mp
+                a = b
+
+            else:
+
+                # No, discard upper range
+                max = mp
+
+        return mp
+
+    # Use the bisection method to solve the root
+    # func - The function to evaluate
+    # deriv - The function to evaluate's derivative function
+    # x - The starting value
+    # numItens - How many times to iterate
+    def newton(func, deriv, x, numItens):
+
+        # For numItens iterations...
+        for i in range(0, numItens):
+
+            # Use Newton's Method
+            x = x - func(x) / deriv(x)
+
+            if self.debug:
+                # Print the iteration value if debugging is on
+                print("Newton #%i: " % (i) + str(x))
+
+        return x
 
     ### Public methods
 
@@ -115,7 +183,10 @@ class StewartPlatform:
 
         return pow(x, 2) + pow(y, 2)
 
-    def P2S(self, x, y, theta):
+    def P2S(self, x, y, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # p2^2 = (x + A2)^2 + (y + B2)^2
 
@@ -125,7 +196,10 @@ class StewartPlatform:
 
         return pow(x + self.A2(theta), 2) + pow(y + self.B2(theta), 2)
 
-    def P3S(self, x, y, theta):
+    def P3S(self, x, y, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # p3 = (x + A3)^2 + (y + B3)^2
 
@@ -135,7 +209,10 @@ class StewartPlatform:
 
         return pow(x + self.A3(theta), 2) + pow(y + self.B3(theta), 2)
 
-    def A2(self, theta):
+    def A2(self, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # A2 = L3 cos theta - x1
 
@@ -143,29 +220,44 @@ class StewartPlatform:
 
     def A3(self, theta):
 
+        if theta is None:
+            theta = self.theta
+
         # A3 = L2 cos(theta + gamma) - x2
 
         return self.l2 * cos(theta + self.gamma) - self.x2
 
-    def B2(self, theta):
+    def B2(self, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # B2 = L3 sin theta
 
         return self.l3 * sin(theta)
 
-    def B3(self, theta):
+    def B3(self, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # B3 = L2 sin(theta + gamma) - y2
 
         return self.l2 * sin(theta + self.gamma) - self.y2
 
-    def D(self, theta):
+    def D(self, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # D = 2(A2 * B3 - B2 * A3)
 
         return 2 * (self.A2(theta) * self.B3(theta) - self.B2(theta) * self.A3(theta))
 
-    def N1(self, x, y, theta):
+    def N1(self, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # N1 = B3(P2^2 - P1^2 - A2^2 - B2^2) - B2(P3^2 - P1^2 - A3^2 - B3^2)
 
@@ -184,15 +276,22 @@ class StewartPlatform:
         B3S = pow(B3, 2)
 
         # Store results for P
-        P1S = self.P1S(x, y)
-        P2S = self.P2S(x, y, theta)
-        P3S = self.P3S(x, y, theta)
+        P1 = self.p1
+        P2 = self.p2
+        P3 = self.p3
 
-        return B3(P2S - P1S - A2S - B2S) - B2(P3S - P1S - A3S - B3S)
+        P1S = pow(P1, 2)
+        P2S = pow(P1, 2)
+        P3S = pow(P1, 2)
 
-    def N2(self, x, y, theta):
+        return B3 * (P2S - P1S - A2S - B2S) - B2 * (P3S - P1S - A3S - B3S)
+
+    def N2(self, theta = None):
 
         # N2 = -A3(P2^2 - P1^2 - A2^2 - B2^2) + A2(P3^2 - P1^2 - A3^2 - B3^2)
+
+        if theta is None:
+            theta = self.theta
 
         # Store results for A
         A2 = self.A2(theta)
@@ -209,30 +308,44 @@ class StewartPlatform:
         B3S = pow(B3, 2)
 
         # Store results for P
-        P1S = self.P1S(x, y)
-        P2S = self.P2S(x, y, theta)
-        P3S = self.P3S(x, y, theta)
+        P1 = self.p1
+        P2 = self.p2
+        P3 = self.p3
 
-        return (-A3)(P2S - P1S - A2S - B2S) + A2(P3S - P1S - A3S - B3S)
+        P1S = pow(P1, 2)
+        P2S = pow(P1, 2)
+        P3S = pow(P1, 2)
 
-    def x(self, x, y, theta):
+        return (-A3) * (P2S - P1S - A2S - B2S) + A2 * (P3S - P1S - A3S - B3S)
+
+    def x(self, theta = None):
 
         # x = N1 / D
         # As long as D =/= 0
         # TODO: Implement zero checking
 
-        return self.N1(x, y, theta) / self.D(theta)
+        if theta is None:
+            theta = self.theta
 
-    def y(self, x, y, theta):
+        return self.N1(theta) / self.D(theta)
+
+    def y(self, theta = None):
 
         # y = N2 / D
         # As long as D =/= 0
+
+        if theta is None:
+            theta = self.theta
+
         # TODO: Implement zero checking
 
-        return self.N2(x, y, theta) / self.D(theta)
+        return self.N2(theta) / self.D(theta)
 
     # Activity #1 - Evaluate f(theta)
-    def f(self, theta):
+    def f(self, theta = None):
+
+        if theta is None:
+            theta = self.theta
 
         # Store results for A
         A2 = self.A2(theta)
@@ -261,7 +374,8 @@ class StewartPlatform:
         N2S = pow(N2, 2)
 
         # Store results for D
-        DS = pow(self.D(theta), 2)
+        D = self.D(theta)
+        DS = pow(D, 2)
 
         # Compute f
         return N1S + N2S - P1S * DS
@@ -269,14 +383,49 @@ class StewartPlatform:
     # Activity #2 - Plot f(theta) from -PI to PI
     def plotF(self, min, max):
 
-        x = []
-        y = []
+        xValues = []
+        yValues = []
 
         for i in np.arange(min, max, 0.001):
-            x.append(i*radians)
-            y.append(self.f(i))
+            xValues.append(i*radians)
+            yValues.append(self.f(i))
 
-        plt.plot(x, y, xunits = radians)
+        fig, ax = plt.subplots()
+
+        ax.plot(xValues, yValues, xunits = radians)
+
+        ax.grid(True, which='both')
+        ax.axhline(y=0, color='k')
+        ax.axvline(x=0, color='k')
+
         plt.ylabel('f(theta)')
         plt.xlabel("theta (Radians)")
+
+        plt.show()
+
+    # Activity #3 - Plot the triangle
+    def plotTriangle(self):
+
+        # Plot the triangle
+        x = self.x()
+        y = self.y()
+
+        u1x = x
+        u1y = y
+
+        u2x = x + self.l2 * cos(self.theta + self.gamma)
+        u2y = y + self.l2 * sin(self.theta + self.gamma)
+
+        u3x = x + self.l3 * cos(self.theta)
+        u3y = y + self.l3 * sin(self.theta)
+
+        xValues = [u1x, u2x, u3x, u1x]
+        yValues = [u1y, u2y, u3y, u1y]
+
+        plt.plot(xValues, yValues, 'r')
+
+        # Plot the legs
+
+        #plt.ylabel('f(theta)')
+        #plt.xlabel("theta (Radians)")
         plt.show()
