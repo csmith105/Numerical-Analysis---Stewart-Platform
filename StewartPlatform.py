@@ -138,26 +138,7 @@ class StewartPlatform:
 
             error = error / 2.0
 
-        return mp
-
-    # Use the bisection method to solve the root
-    # func - The function to evaluate
-    # deriv - The function to evaluate's derivative function
-    # x - The starting value
-    # numItens - How many times to iterate
-    def newton(func, deriv, x, numItens):
-
-        # For numItens iterations...
-        for i in range(0, numItens):
-
-            # Use Newton's Method
-            x = x - func(x) / deriv(x)
-
-            if self.debug:
-                # Print the iteration value if debugging is on
-                print("Newton #%i: " % (i) + str(x))
-
-        return x
+        return (min + max) / 2
 
     ### Public methods
 
@@ -398,16 +379,20 @@ class StewartPlatform:
             xValues.append(i*radians)
             yValues.append(self.f(i))
 
+        # Setup grid and units
+
         fig, ax = plt.subplots()
 
-        ax.plot(xValues, yValues, xunits = radians)
+        ax.plot(xValues, yValues, xunits=radians)
 
         ax.grid(True, which='both')
         ax.axhline(y=0, color='k')
         ax.axvline(x=0, color='k')
 
-        plt.ylabel('f(theta)')
+        # Setup plot
+
         plt.xlabel("theta (Radians)")
+        plt.ylabel('f(theta)')
 
         plt.show()
 
@@ -430,22 +415,24 @@ class StewartPlatform:
         xValuesTriangle = [u1x, u2x, u3x, u1x]
         yValuesTriangle = [u1y, u2y, u3y, u1y]
 
-        plt.plot(xValuesTriangle, yValuesTriangle, 'r')
+        plt.plot(xValuesTriangle, yValuesTriangle, 'k')
 
         # Plot the anchor points
 
         xValuesAnchor = [0, self.x1, self.x2]
         yValuesAnchor = [0, self.y1, self.y2]
 
-        plt.plot(xValuesAnchor, yValuesAnchor, 'bo')
+        plt.plot(xValuesAnchor, yValuesAnchor, 'ko')
 
         # Plot the struts
 
-        plt.plot([0, u1x], [0, u1y], 'g--')
+        plt.plot([0, u1x], [0, u1y], 'r--')
         plt.plot([self.x1, u2x], [self.y1, u2y], 'g--')
-        plt.plot([self.x2, u3x], [self.y2, u3y], 'g--')
+        plt.plot([self.x2, u3x], [self.y2, u3y], 'b--')
 
+        # Setup plot
 
-        #plt.ylabel('f(theta)')
-        #plt.xlabel("theta (Radians)")
+        plt.xlabel("x")
+        plt.ylabel('y')
+
         plt.show()
