@@ -1,6 +1,8 @@
 from StewartPlatform import StewartPlatform
 
 from math import *
+import matplotlib.pyplot as plt
+import numpy as np
 
 def test1():
 
@@ -128,13 +130,49 @@ def test6():
 
     print("PASS")
 
+def test7():
+
+    print("Test 7 - Verify Activity 7")
+
+    stewie = StewartPlatform(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
+
+    xValues = []
+    yValues = []
+
+    for i in np.arange(0, 11, 0.1):
+
+        stewie.setP(5.0, i, 3.0)
+        xValues.append(i)
+        yValues.append(len(stewie.solve()))
+
+    print("Plotting...")
+
+    plt.plot(xValues, yValues, 'k')
+
+    # Setup plot
+
+    plt.xlabel("x")
+    plt.ylabel('Number of roots')
+
+    title = "Activity 7 - Plotting number of roots for p2"
+
+    plt.title(title)
+
+    fig = plt.gcf()
+    fig.canvas.set_window_title(title)
+
+    plt.show()
+
+    print("PASS")
+
+# Run Tests
 test1()
 test2()
 test3()
 test4()
 test5()
 test6()
-
+test7()
 
 
 
