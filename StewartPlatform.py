@@ -100,26 +100,32 @@ class StewartPlatform:
     # max - The maximum value of the root
     # x - The starting value
     # numItens - How many times to iterate
-    def bisect(func, min, max, x, numItens):
+    def bisect(func, min, max, x, f, tol = np.finfo(float).eps):
 
-        # a = myfun.eval(min)
-        a = -1
+        error = a = f(min)
 
-        # For numItens iterations...
-        for i in range(0, numItens):
+        if a <= tol:
+            return min
 
-            if(self.debug):
+        if f(max) <= tol:
+            return max
+
+        # While error is larger than the tolerance
+        while error > tol:
+
+            if self.debug:
+
                 # Print the iteration value if debugging is on
-                print("Bisection #%i: " % (i) + str(min) + " " + str(max))
+                print("Bisection: " + str(min) + " " + str(max))
 
             # Use the Bisection Method
             mp = (min + max) / 2.0
 
             # Evaluate the function at the new midpoint
-            b = func(mp)
+            b = f(mp)
 
             # If we have two positive numbers: a, b
-            if(a * b > 0.0):
+            if a * b > 0.0:
 
                 # Yes, discard lower range
                 min = mp
@@ -129,6 +135,8 @@ class StewartPlatform:
 
                 # No, discard upper range
                 max = mp
+
+            error = error / 2.0
 
         return mp
 
@@ -413,18 +421,30 @@ class StewartPlatform:
         u1x = x
         u1y = y
 
-        u2x = x + self.l2 * cos(self.theta + self.gamma)
-        u2y = y + self.l2 * sin(self.theta + self.gamma)
+        u2x = x + self.l3 * cos(self.theta)
+        u2y = y + self.l3 * sin(self.theta)
 
-        u3x = x + self.l3 * cos(self.theta)
-        u3y = y + self.l3 * sin(self.theta)
+        u3x = x + self.l2 * cos(self.theta + self.gamma)
+        u3y = y + self.l2 * sin(self.theta + self.gamma)
 
-        xValues = [u1x, u2x, u3x, u1x]
-        yValues = [u1y, u2y, u3y, u1y]
+        xValuesTriangle = [u1x, u2x, u3x, u1x]
+        yValuesTriangle = [u1y, u2y, u3y, u1y]
 
-        plt.plot(xValues, yValues, 'r')
+        plt.plot(xValuesTriangle, yValuesTriangle, 'r')
 
-        # Plot the legs
+        # Plot the anchor points
+
+        xValuesAnchor = [0, self.x1, self.x2]
+        yValuesAnchor = [0, self.y1, self.y2]
+
+        plt.plot(xValuesAnchor, yValuesAnchor, 'bo')
+
+        # Plot the struts
+
+        plt.plot([0, u1x], [0, u1y], 'g--')
+        plt.plot([self.x1, u2x], [self.y1, u2y], 'g--')
+        plt.plot([self.x2, u3x], [self.y2, u3y], 'g--')
+
 
         #plt.ylabel('f(theta)')
         #plt.xlabel("theta (Radians)")

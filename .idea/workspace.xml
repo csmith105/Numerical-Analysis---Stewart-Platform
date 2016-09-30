@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="StewartPlatform.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StewartPlatform.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/StewartPlatform.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-196">
-              <caret line="398" column="34" selection-start-line="398" selection-start-column="34" selection-end-line="398" selection-end-column="34" />
+            <state relative-caret-position="354">
+              <caret line="427" column="56" selection-start-line="427" selection-start-column="56" selection-end-line="427" selection-end-column="56" />
               <folding>
                 <element signature="e#141#159#0" expanded="true" />
               </folding>
@@ -38,7 +38,7 @@
       <file leaf-file-name="basic_units.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basic_units.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
+            <state relative-caret-position="-117">
               <caret line="309" column="18" selection-start-line="309" selection-start-column="18" selection-end-line="309" selection-end-column="18" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -47,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tests.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
+            <state relative-caret-position="506">
+              <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -336,7 +336,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30707875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30707875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -386,7 +386,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basic_units.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
+        <state relative-caret-position="-117">
           <caret line="309" column="18" selection-start-line="309" selection-start-column="18" selection-end-line="309" selection-end-column="18" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -394,22 +394,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/StewartPlatform.py">
+    <entry file="file://$PROJECT_DIR$/Tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-196">
-          <caret line="398" column="34" selection-start-line="398" selection-start-column="34" selection-end-line="398" selection-end-column="34" />
+        <state relative-caret-position="506">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
           <folding>
-            <element signature="e#141#159#0" expanded="true" />
+            <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests.py">
+    <entry file="file://$PROJECT_DIR$/StewartPlatform.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
+        <state relative-caret-position="354">
+          <caret line="427" column="56" selection-start-line="427" selection-start-column="56" selection-end-line="427" selection-end-column="56" />
           <folding>
-            <element signature="e#0#43#0" expanded="true" />
+            <element signature="e#141#159#0" expanded="true" />
           </folding>
         </state>
       </provider>

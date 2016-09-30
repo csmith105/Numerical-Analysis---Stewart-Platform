@@ -43,10 +43,12 @@ def test3():
     stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
     stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
 
-    print("Solving...")
-    stewie.solve()
+    print("Plotting...")
+    stewie.setTheta(-pi / 4)
+    stewie.plotTriangle()
 
     print("Plotting...")
+    stewie.setTheta(pi / 4)
     stewie.plotTriangle()
 
     print("PASS")
