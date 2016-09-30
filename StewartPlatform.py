@@ -95,12 +95,12 @@ class StewartPlatform:
 
         # From http://stackoverflow.com/questions/14878110/how-to-find-all-zeros-of-a-function-using-numpy-and-scipy
 
-        U = np.linspace(-pi, pi, 100)
+        U = np.linspace(-pi, pi, 500)
         c = self.f(U)
         s = np.sign(c)
         ret = []
 
-        for i in range(100 - 1):
+        for i in range(500 - 1):
 
             if s[i] + s[i + 1] == 0:
                 u = brentq(self.f, U[i], U[i + 1])
