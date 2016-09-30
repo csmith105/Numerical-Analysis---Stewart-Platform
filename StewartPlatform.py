@@ -7,8 +7,9 @@
 #   David Andrews
 #   Yunzhou Li
 
-from math import *
 from basic_units import radians
+from scipy.optimize import fsolve
+from numpy import sin, cos, pi
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -92,7 +93,7 @@ class StewartPlatform:
 
     def solve(self):
 
-        self.setTheta(0)
+        return fsolve(self.f, [-pi, pi])
 
     # Use the bisection method to solve the root
     # func - The function to evaluate
@@ -370,7 +371,7 @@ class StewartPlatform:
         return N1S + N2S - P1S * DS
 
     # Activity #2 - Plot f(theta) from -PI to PI
-    def plotF(self, min, max):
+    def plotF(self, min, max, title = None):
 
         xValues = []
         yValues = []
@@ -394,10 +395,15 @@ class StewartPlatform:
         plt.xlabel("theta (Radians)")
         plt.ylabel('f(theta)')
 
+        plt.title(title)
+
+        fig = plt.gcf()
+        fig.canvas.set_window_title(title)
+
         plt.show()
 
     # Activity #3 - Plot the triangle
-    def plotTriangle(self):
+    def plotTriangle(self, title = None):
 
         # Plot the triangle
         x = self.x()
@@ -434,5 +440,10 @@ class StewartPlatform:
 
         plt.xlabel("x")
         plt.ylabel('y')
+
+        plt.title(title)
+
+        fig = plt.gcf()
+        fig.canvas.set_window_title(title)
 
         plt.show()

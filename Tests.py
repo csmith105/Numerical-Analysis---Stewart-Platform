@@ -32,7 +32,7 @@ def test2():
     stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
 
     print("Plotting...")
-    stewie.plotF(-pi / 2.0, pi / 2.0)
+    stewie.plotF(-pi / 2.0, pi / 2.0, "Activity 2 - Plotting f from -PI/2 to PI/2")
 
     print("PASS")
 
@@ -45,17 +45,43 @@ def test3():
 
     print("Plotting...")
     stewie.setTheta(-pi / 4)
-    stewie.plotTriangle()
+    stewie.plotTriangle("Activity 3 - Theta = -PI/4")
 
     print("Plotting...")
     stewie.setTheta(pi / 4)
-    stewie.plotTriangle()
+    stewie.plotTriangle("Activity 3 - Theta = PI/4")
+
+    print("PASS")
+
+def test4():
+
+    print("Test 4 - Verify Activity 4")
+
+    stewie = StewartPlatform(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
+    stewie.setP(5.0, 5.0, 3.0)
+
+    print("Plotting...")
+    stewie.plotF(-pi, pi, "Activity 4 - Plotting f from -PI/2 to PI/2")
+
+    print("Solving...")
+
+    results = stewie.solve()
+
+    print(results)
+
+    for result in results:
+
+        print("Plotting...")
+
+        stewie.setTheta(result)
+        stewie.plotTriangle("Activity 4 - Theta = " + str(result))
 
     print("PASS")
 
 test1()
 test2()
 test3()
+test4()
 
 
 
