@@ -401,13 +401,14 @@ class StewartPlatform2D:
 class StewartPlatform3D:
 
     # Assume that the platform has legs of the same size
-    # and that the platform is triangular
+    # and that the platform is hexagonal
 
     def __init__(self, platformLegLength, strutMinLength, strutMaxLength):
 
         # Set class members
 
         self.setL(platformLegLength)
+
         self.setStrutMinLength(strutMinLength)
         self.setStrutMaxLength(strutMaxLength)
 
@@ -470,7 +471,30 @@ class StewartPlatform3D:
 
     # Set platform length
     def setL(self, length):
+
         self.length = length
+
+        # Generate the platform points based on length
+
+        a = length
+        b = length / 2
+        c = a * sin(radians(60))
+
+        self.pp1 = [a, 0]
+        self.pp2 = [b, c]
+        self.pp3 = [-b, c]
+        self.pp4 = [-a, 0]
+        self.pp5 = [-b, -c]
+        self.pp6 = [b, -c]
+
+        #     p3    p2
+        #       ----
+        #     /      \
+        # p4 /        \ p1
+        #    \        /
+        #     \      /
+        #       ----
+        #     p5    p6
 
     # Set strut 1 length
     def setP1(self, p1):
@@ -519,7 +543,7 @@ class StewartPlatform3D:
     # Given L, base position, platform position, platform rotation, etc. compute P1 ... P6
     def inverseKinematics(self, x, y, theta):
 
-        P1 = 0
+        P1 = sqrt(pow(, 2) + pow(, 2) + pow(, 2))
         P2 = 0
         P3 = 0
         P4 = 0
