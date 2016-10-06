@@ -14,7 +14,7 @@ from numpy import sin, cos, pi, sqrt
 import matplotlib.pyplot as plt
 import numpy as np
 
-class StewartPlatform:
+class StewartPlatform2D:
 
     def __init__(self, l1, l2, l3, gamma, x1, y1, x2, y2):
 
@@ -88,100 +88,6 @@ class StewartPlatform:
     # Set gamma
     def setGamma(self, gamma):
         self.gamma = gamma
-
-    ### Solvers
-
-    def solve(self):
-
-        # From http://stackoverflow.com/questions/14878110/how-to-find-all-zeros-of-a-function-using-numpy-and-scipy
-
-        U = np.linspace(-pi, pi, 500)
-        c = self.f(U)
-        s = np.sign(c)
-        ret = []
-
-        for i in range(500 - 1):
-
-            if s[i] + s[i + 1] == 0:
-                u = brentq(self.f, U[i], U[i + 1])
-                z = self.f(u)
-
-                if np.isnan(z) or abs(z) > 1e-3:
-                    continue
-
-                ret.append(u)
-
-        return ret
-
-    # Use the bisection method to solve the root
-    # func - The function to evaluate
-    # min - The minimum value  of the root
-    # max - The maximum value of the root
-    # x - The starting value
-    # numItens - How many times to iterate
-    def bisect(func, min, max, x, f, tol = np.finfo(float).eps):
-
-        error = a = f(min)
-
-        if a <= tol:
-            return min
-
-        if f(max) <= tol:
-            return max
-
-        # While error is larger than the tolerance
-        while error > tol:
-
-            if self.debug:
-
-                # Print the iteration value if debugging is on
-                print("Bisection: " + str(min) + " " + str(max))
-
-            # Use the Bisection Method
-            mp = (min + max) / 2.0
-
-            # Evaluate the function at the new midpoint
-            b = f(mp)
-
-            # If we have two positive numbers: a, b
-            if a * b > 0.0:
-
-                # Yes, discard lower range
-                min = mp
-                a = b
-
-            else:
-
-                # No, discard upper range
-                max = mp
-
-            error = error / 2.0
-
-        return (min + max) / 2
-
-    ### Public methods
-
-    # Given L1, L2 and L3 as well as P1, P2 and P3, compute x, y and theta
-    def forwardKinematics(self, p1, p2, p3):
-
-        # Multiple solutions?
-
-        return
-
-    # Given x, y and theta, compute p1, p2 and p3
-    def inverseKinematics(self, x, y, theta):
-
-        # Run the squared methods
-        P1S = self.P1S(x, y)
-        P2S = self.P2S(x, y, theta)
-        P3S = self.P3S(x, y, theta)
-
-        # Take the square roots of those values
-        P1 = sqrt(P1S)
-        P2 = sqrt(P2S)
-        P3 = sqrt(P3S)
-
-        return P1, P2, P3
 
     ### Private methods
 
@@ -349,6 +255,8 @@ class StewartPlatform:
 
         return self.N2(theta) / self.D(theta)
 
+    ### Public methods
+
     # Activity #1 - Evaluate f(theta)
     def f(self, theta = None):
 
@@ -465,3 +373,124 @@ class StewartPlatform:
         fig.canvas.set_window_title(title)
 
         plt.show()
+
+        ### Solvers
+
+    def solve(self):
+
+        # From http://stackoverflow.com/questions/14878110/how-to-find-all-zeros-of-a-function-using-numpy-and-scipy
+
+        U = np.linspace(-pi, pi, 500)
+        c = self.f(U)
+        s = np.sign(c)
+        ret = []
+
+        for i in range(500 - 1):
+
+            if s[i] + s[i + 1] == 0:
+                u = brentq(self.f, U[i], U[i + 1])
+                z = self.f(u)
+
+                if np.isnan(z) or abs(z) > 1e-3:
+                    continue
+
+                ret.append(u)
+
+        return ret
+
+class StewartPlatform3D:
+
+    # Assume that the platform has legs of the same size
+
+    def __init__(self, platformLegLength, strutMinLength, strutMaxLength, x1, y1, z1, x2, y2, z2):
+
+        # Set class members
+
+        self.setL(platformLegLength)
+
+        self.setX1(x1)
+        self.setY1(y1)
+        self.setZ1(z1)
+
+        self.setX2(x2)
+        self.setY2(y2)
+        self.setZ2(z2)
+
+        #self.setGamma(gamma)
+        self.debug = 0
+
+    ### Setters
+
+    # Set x1
+    def setX1(self, x1):
+        self.x1 = x1
+
+    # Set x2
+    def setX2(self, x2):
+        self.x2 = x2
+
+    # Set y1
+    def setY1(self, y1):
+        self.y1 = y1
+
+    # Set y2
+    def setY2(self, y2):
+        self.y2 = y2
+
+    # Set platform length
+    def setL(self, length):
+        self.length = length
+
+    # Set strut 1 length
+    def setP1(self, p1):
+        self.p1 = p1
+
+    # Set strut 2 length
+    def setP2(self, p2):
+        self.p2 = p2
+
+    # Set strut 3 length
+    def setP3(self, p3):
+        self.p3 = p3
+
+    # Set all strut lengths
+    def setP(self, p1, p2, p3):
+        self.setP1(p1)
+        self.setP2(p2)
+        self.setP3(p3)
+
+    # Set theta
+    def setTheta(self, theta):
+        self.theta = theta
+
+    # Set gamma
+    def setGamma(self, gamma):
+        self.gamma = gamma
+
+    ### Solvers
+
+    ### Public methods
+
+    # Given L1, L2 and L3 as well as P1, P2 and P3, compute x, y and theta
+    def forwardKinematics(self, p1, p2, p3):
+
+        # Multiple solutions?
+
+        return
+
+    # Given x, y and theta, compute p1, p2 and p3
+    def inverseKinematics(self, x, y, theta):
+
+        # Run the squared methods
+        P1S = self.P1S(x, y)
+        P2S = self.P2S(x, y, theta)
+        P3S = self.P3S(x, y, theta)
+
+        # Take the square roots of those values
+        P1 = sqrt(P1S)
+        P2 = sqrt(P2S)
+        P3 = sqrt(P3S)
+
+        return P1, P2, P3
+
+    ### Private methods

@@ -1,4 +1,4 @@
-from StewartPlatform import StewartPlatform
+from StewartPlatform import StewartPlatform2D
 
 from math import *
 import matplotlib.pyplot as plt
@@ -8,7 +8,7 @@ def test1():
 
     print("Test 1 - Verify Activity 1")
 
-    stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
+    stewie = StewartPlatform2D(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
     stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
 
     f1 = stewie.f(-pi / 4.0)
@@ -30,7 +30,7 @@ def test2():
 
     print("Test 2 - Verify Activity 2")
 
-    stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
+    stewie = StewartPlatform2D(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
     stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
 
     print("Plotting...")
@@ -42,7 +42,7 @@ def test3():
 
     print("Test 3 - Verify Activity 3")
 
-    stewie = StewartPlatform(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
+    stewie = StewartPlatform2D(2.0, sqrt(2.0), sqrt(2.0), pi / 2.0, 4.0, 0.0, 0.0, 4.0)
     stewie.setP(sqrt(5.0), sqrt(5.0), sqrt(5.0))
 
     print("Plotting...")
@@ -59,7 +59,7 @@ def test4():
 
     print("Test 4 - Verify Activity 4")
 
-    stewie = StewartPlatform(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
+    stewie = StewartPlatform2D(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
     stewie.setP(5.0, 5.0, 3.0)
 
     print("Plotting...")
@@ -84,7 +84,7 @@ def test5():
 
     print("Test 5 - Verify Activity 5")
 
-    stewie = StewartPlatform(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
+    stewie = StewartPlatform2D(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
     stewie.setP(5.0, 7.0, 3.0)
 
     print("Plotting...")
@@ -109,7 +109,7 @@ def test6():
 
     print("Test 6 - Verify Activity 6")
 
-    stewie = StewartPlatform(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
+    stewie = StewartPlatform2D(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
     stewie.setP(5.0, 9.0, 3.0)
 
     print("Plotting...")
@@ -134,7 +134,7 @@ def test7():
 
     print("Test 7 - Verify Activity 7")
 
-    stewie = StewartPlatform(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
+    stewie = StewartPlatform2D(3.0, 3 * sqrt(2.0), 3.0, pi / 4.0, 5, 0.0, 0.0, 6.0)
 
     xValues = []
     yValues = []
