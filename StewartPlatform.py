@@ -440,13 +440,11 @@ class StewartPlatform3D:
         self.z = z
 
     # Set Rotation of the platform
-    def setPlatformRotation(self, a, b, c):
+    def setPlatformRotation(self, alpha, beta, gamma):
 
-        # TODO: Should name the rotation vars better
-
-        self.a = a
-        self.b = b
-        self.c = c
+        self.alpha = alpha
+        self.beta = beta
+        self.gamma = gamma
 
     # Set base point 1
     def setB1(self, x, y, z):
