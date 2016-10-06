@@ -441,33 +441,36 @@ class StewartPlatform3D:
 
     # Set Rotation of the platform
     def setPlatformRotation(self, a, b, c):
+
+        # TODO: Should name the rotation vars better
+
         self.a = a
         self.b = b
         self.c = c
 
     # Set base point 1
-    def setBP1(self, x, y, z):
-        self.bp1 = [x, y, z]
+    def setB1(self, x, y, z):
+        self.b1 = [x, y, z]
 
     # Set base point 2
-    def setBP2(self, x, y, z):
-        self.bp2 = [x, y, z]
+    def setB2(self, x, y, z):
+        self.b2 = [x, y, z]
 
     # Set base point 3
-    def setBP3(self, x, y, z):
-        self.bp3 = [x, y, z]
+    def setB3(self, x, y, z):
+        self.b3 = [x, y, z]
 
     # Set base point 4
-    def setBP4(self, x, y, z):
-        self.bp4 = [x, y, z]
+    def setB4(self, x, y, z):
+        self.b4 = [x, y, z]
 
     # Set base point 5
-    def setBP5(self, x, y, z):
-        self.bp5 = [x, y, z]
+    def setB5(self, x, y, z):
+        self.b5 = [x, y, z]
 
     # Set base point 6
-    def setBP6(self, x, y, z):
-        self.bp6 = [x, y, z]
+    def setB6(self, x, y, z):
+        self.b6 = [x, y, z]
 
     # Set platform length
     def setL(self, length):
@@ -480,21 +483,25 @@ class StewartPlatform3D:
         b = length / 2
         c = a * sin(radians(60))
 
-        self.pp1 = [a, 0]
-        self.pp2 = [b, c]
-        self.pp3 = [-b, c]
-        self.pp4 = [-a, 0]
-        self.pp5 = [-b, -c]
-        self.pp6 = [b, -c]
+        self.p1 = [a, 0, 0]
+        self.p2 = [b, c, 0]
+        self.p3 = [-b, c, 0]
+        self.p4 = [-a, 0, 0]
+        self.p5 = [-b, -c, 0]
+        self.p6 = [b, -c, 0]
 
-        #     p3    p2
-        #       ----
-        #     /      \
-        # p4 /        \ p1
-        #    \        /
-        #     \      /
-        #       ----
-        #     p5    p6
+        # NOTE: These are sort of locally relative, will need to transform these per
+        # the position and rotation values of the platform to get actual values
+
+        #       p3     p2
+        #         -----
+        #       /       \
+        #      /         \
+        #  p4       +       p1
+        #      \         /
+        #       \       /
+        #         -----
+        #       p5     p6
 
     # Set strut 1 length
     def setP1(self, p1):
@@ -542,6 +549,10 @@ class StewartPlatform3D:
 
     # Given L, base position, platform position, platform rotation, etc. compute P1 ... P6
     def inverseKinematics(self, x, y, theta):
+
+        # TODO: Translate the platform values using the set platform position and rotation
+
+        # L_i = sqrt((Plat_xi - Base_xi)^2 + (Plat_yi - Base_yi)^2 + (Plat_zi - Base_zi)^2)
 
         P1 = sqrt(pow(, 2) + pow(, 2) + pow(, 2))
         P2 = 0
