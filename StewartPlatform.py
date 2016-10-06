@@ -401,41 +401,72 @@ class StewartPlatform2D:
 class StewartPlatform3D:
 
     # Assume that the platform has legs of the same size
+    # and that the platform is triangular
 
-    def __init__(self, platformLegLength, strutMinLength, strutMaxLength, x1, y1, z1, x2, y2, z2):
+    def __init__(self, platformLegLength, strutMinLength, strutMaxLength):
 
         # Set class members
 
         self.setL(platformLegLength)
+        self.setStrutMinLength(strutMinLength)
+        self.setStrutMaxLength(strutMaxLength)
 
-        self.setX1(x1)
-        self.setY1(y1)
-        self.setZ1(z1)
+        # Set base points to default values
 
-        self.setX2(x2)
-        self.setY2(y2)
-        self.setZ2(z2)
+        self.setBP1([0, 0, 0])
+        self.setBP2([0, 0, 0])
+        self.setBP3([0, 0, 0])
+        self.setBP4([0, 0, 0])
+        self.setBP5([0, 0, 0])
+        self.setBP6([0, 0, 0])
 
-        #self.setGamma(gamma)
         self.debug = 0
 
     ### Setters
 
-    # Set x1
-    def setX1(self, x1):
-        self.x1 = x1
+    # Set min strut length
+    def setStrutMinLength(self, min):
+        self.min = min
 
-    # Set x2
-    def setX2(self, x2):
-        self.x2 = x2
+    # Set max strut length
+    def setStrutMaxLength(self, max):
+        self.max = max
 
-    # Set y1
-    def setY1(self, y1):
-        self.y1 = y1
+    # Set tbe position of the platform
+    def setPlatformPosition(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
 
-    # Set y2
-    def setY2(self, y2):
-        self.y2 = y2
+    # Set Rotation of the platform
+    def setPlatformRotation(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+
+    # Set base point 1
+    def setBP1(self, x, y, z):
+        self.bp1 = [x, y, z]
+
+    # Set base point 2
+    def setBP2(self, x, y, z):
+        self.bp2 = [x, y, z]
+
+    # Set base point 3
+    def setBP3(self, x, y, z):
+        self.bp3 = [x, y, z]
+
+    # Set base point 4
+    def setBP4(self, x, y, z):
+        self.bp4 = [x, y, z]
+
+    # Set base point 5
+    def setBP5(self, x, y, z):
+        self.bp5 = [x, y, z]
+
+    # Set base point 6
+    def setBP6(self, x, y, z):
+        self.bp6 = [x, y, z]
 
     # Set platform length
     def setL(self, length):
@@ -453,44 +484,48 @@ class StewartPlatform3D:
     def setP3(self, p3):
         self.p3 = p3
 
+    # Set strut 4 length
+    def setP4(self, p4):
+        self.p4 = p4
+
+    # Set strut 5 length
+    def setP5(self, p5):
+        self.p5 = p5
+
+    # Set strut 6 length
+    def setP6(self, p6):
+        self.p6 = p6
+
     # Set all strut lengths
-    def setP(self, p1, p2, p3):
+    def setP(self, p1, p2, p3, p4, p5, p6):
         self.setP1(p1)
         self.setP2(p2)
         self.setP3(p3)
-
-    # Set theta
-    def setTheta(self, theta):
-        self.theta = theta
-
-    # Set gamma
-    def setGamma(self, gamma):
-        self.gamma = gamma
+        self.setP4(p4)
+        self.setP5(p5)
+        self.setP6(p6)
 
     ### Solvers
 
     ### Public methods
 
-    # Given L1, L2 and L3 as well as P1, P2 and P3, compute x, y and theta
+    # Given L, P1 ... P6, base position, etc. compute platform position and rotation
     def forwardKinematics(self, p1, p2, p3):
 
         # Multiple solutions?
 
         return
 
-    # Given x, y and theta, compute p1, p2 and p3
+    # Given L, base position, platform position, platform rotation, etc. compute P1 ... P6
     def inverseKinematics(self, x, y, theta):
 
-        # Run the squared methods
-        P1S = self.P1S(x, y)
-        P2S = self.P2S(x, y, theta)
-        P3S = self.P3S(x, y, theta)
+        P1 = 0
+        P2 = 0
+        P3 = 0
+        P4 = 0
+        P5 = 0
+        P6 = 0
 
-        # Take the square roots of those values
-        P1 = sqrt(P1S)
-        P2 = sqrt(P2S)
-        P3 = sqrt(P3S)
-
-        return P1, P2, P3
+        return P1, P2, P3, P4, P5, P6
 
     ### Private methods
