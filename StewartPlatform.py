@@ -577,11 +577,39 @@ class StewartPlatform3D:
     # Given L, base position, platform position, platform rotation, etc. compute P1 ... P6
     def inverseKinematics(self):
 
-        #LENGTH = np.sum(np.square(X_NOT + PLATFORM_AUG_POS), 1)
+        PLAT_AUG_PTS = self.getPlatformAugmentedPoints()
 
-        #return P1, P2, P3, P4, P5, P6
+        P1 = sqrt(
+            pow(PLAT_AUG_PTS[0][0] - self.b1[0], 2) +
+            pow(PLAT_AUG_PTS[0][1] - self.b1[1], 2) +
+            pow(PLAT_AUG_PTS[0][2] - self.b1[2], 2))
 
-        return
+        P2 = sqrt(
+            pow(PLAT_AUG_PTS[1][0] - self.b2[0], 2) +
+            pow(PLAT_AUG_PTS[1][1] - self.b2[1], 2) +
+            pow(PLAT_AUG_PTS[1][2] - self.b2[2], 2))
+
+        P3 = sqrt(
+            pow(PLAT_AUG_PTS[2][0] - self.b3[0], 2) +
+            pow(PLAT_AUG_PTS[2][1] - self.b3[1], 2) +
+            pow(PLAT_AUG_PTS[2][2] - self.b3[2], 2))
+
+        P4 = sqrt(
+            pow(PLAT_AUG_PTS[3][0] - self.b4[0], 2) +
+            pow(PLAT_AUG_PTS[3][1] - self.b4[1], 2) +
+            pow(PLAT_AUG_PTS[3][2] - self.b4[2], 2))
+
+        P5 = sqrt(
+            pow(PLAT_AUG_PTS[4][0] - self.b5[0], 2) +
+            pow(PLAT_AUG_PTS[4][1] - self.b5[1], 2) +
+            pow(PLAT_AUG_PTS[4][2] - self.b5[2], 2))
+
+        P6 = sqrt(
+            pow(PLAT_AUG_PTS[5][0] - self.b6[0], 2) +
+            pow(PLAT_AUG_PTS[5][1] - self.b6[1], 2) +
+            pow(PLAT_AUG_PTS[5][2] - self.b6[2], 2))
+
+        return [P1, P2, P3, P4, P5, P6]
 
     def plotPlatform(self):
 
@@ -695,7 +723,7 @@ class StewartPlatform3D:
             PLAT_AUG_PTS[i, 1] = PLAT_AUG_PTS[i, 1] + self.y
             PLAT_AUG_PTS[i, 2] = PLAT_AUG_PTS[i, 2] + self.z
 
-        print(PLAT_PTS)
-        print(PLAT_AUG_PTS)
+        #print(PLAT_PTS)
+        #print(PLAT_AUG_PTS)
 
         return PLAT_AUG_PTS

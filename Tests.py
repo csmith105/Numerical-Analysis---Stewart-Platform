@@ -172,17 +172,20 @@ def test8():
     stewie.setB(7)
 
     stewie.setPlatformPosition(0, 0, 5)
+    print(stewie.inverseKinematics())
     stewie.plotPlatform()
 
     stewie.setPlatformRotation(30, 0, 0)
+    print(stewie.inverseKinematics())
     stewie.plotPlatform()
 
     stewie.setPlatformRotation(0, 30, 0)
+    print(stewie.inverseKinematics())
     stewie.plotPlatform()
 
     stewie.setPlatformRotation(0, 0, 30)
+    print(stewie.inverseKinematics())
     stewie.plotPlatform()
-    #stewie.inverseKinematics()
 
 # Run Tests
 test8()
