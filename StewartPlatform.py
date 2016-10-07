@@ -9,9 +9,11 @@
 
 from basic_units import radians
 from scipy.optimize import brentq, fsolve
-from numpy import sin, cos, pi, sqrt
+from numpy import sin, cos, pi, sqrt, deg2rad
 
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 import numpy as np
 
 class StewartPlatform2D:
@@ -414,12 +416,10 @@ class StewartPlatform3D:
 
         # Set base points to default values
 
-        self.setBP1([0, 0, 0])
-        self.setBP2([0, 0, 0])
-        self.setBP3([0, 0, 0])
-        self.setBP4([0, 0, 0])
-        self.setBP5([0, 0, 0])
-        self.setBP6([0, 0, 0])
+        self.setB(0)
+
+        self.setPlatformPosition(0, 0, 0)
+        self.setPlatformRotation(0, 0, 0)
 
         self.debug = 0
 
@@ -440,11 +440,10 @@ class StewartPlatform3D:
         self.z = z
 
     # Set Rotation of the platform
-    def setPlatformRotation(self, alpha, beta, gamma):
-
-        self.alpha = alpha
-        self.beta = beta
-        self.gamma = gamma
+    def setPlatformRotation(self, pitch, roll, yaw):
+        self.pitch = deg2rad(pitch)
+        self.roll = deg2rad(roll)
+        self.yaw = deg2rad(yaw)
 
     # Set base point 1
     def setB1(self, x, y, z):
@@ -471,7 +470,7 @@ class StewartPlatform3D:
         self.b6 = [x, y, z]
 
     # Set platform length
-    def setL(self, length):
+    def setB(self, length):
 
         self.length = length
 
@@ -479,7 +478,37 @@ class StewartPlatform3D:
 
         a = length
         b = length / 2
-        c = a * sin(radians(60))
+        c = a * sin(deg2rad(60.0))
+
+        self.b1 = [a, 0, 0]
+        self.b2 = [b, c, 0]
+        self.b3 = [-b, c, 0]
+        self.b4 = [-a, 0, 0]
+        self.b5 = [-b, -c, 0]
+        self.b6 = [b, -c, 0]
+
+        # NOTE: These are sort of locally relative, will need to transform these per
+        # the position and rotation values of the platform to get actual values
+
+        #       p3     p2
+        #         -----
+        #       /       \
+        #      /         \
+        #  p4       +       p1
+        #      \         /
+        #       \       /
+        #         -----
+        #       p5     p6
+
+    # Set platform length
+    def setL(self, length):
+        self.length = length
+
+        # Generate the platform points based on length
+
+        a = length
+        b = length / 2
+        c = a * sin(deg2rad(60.0))
 
         self.p1 = [a, 0, 0]
         self.p2 = [b, c, 0]
@@ -539,26 +568,134 @@ class StewartPlatform3D:
     ### Public methods
 
     # Given L, P1 ... P6, base position, etc. compute platform position and rotation
-    def forwardKinematics(self, p1, p2, p3):
+    def forwardKinematics(self):
 
         # Multiple solutions?
 
         return
 
     # Given L, base position, platform position, platform rotation, etc. compute P1 ... P6
-    def inverseKinematics(self, x, y, theta):
+    def inverseKinematics(self):
 
-        # TODO: Translate the platform values using the set platform position and rotation
+        #LENGTH = np.sum(np.square(X_NOT + PLATFORM_AUG_POS), 1)
 
-        # L_i = sqrt((Plat_xi - Base_xi)^2 + (Plat_yi - Base_yi)^2 + (Plat_zi - Base_zi)^2)
+        #return P1, P2, P3, P4, P5, P6
 
-        P1 = sqrt(pow(, 2) + pow(, 2) + pow(, 2))
-        P2 = 0
-        P3 = 0
-        P4 = 0
-        P5 = 0
-        P6 = 0
+        return
 
-        return P1, P2, P3, P4, P5, P6
+    def plotPlatform(self):
+
+        fig = plt.figure()
+
+        ax = fig.add_subplot(111, projection = '3d')
+
+        PLAT_AUG_PTS = self.getPlatformAugmentedPoints()
+
+        # Plot struts
+
+        ax.plot(
+            [self.b1[0], PLAT_AUG_PTS[0][0]],
+            [self.b1[1], PLAT_AUG_PTS[0][1]],
+            [self.b1[2], PLAT_AUG_PTS[0][2]], 'b')
+        ax.plot(
+            [self.b2[0], PLAT_AUG_PTS[1][0]],
+            [self.b2[1], PLAT_AUG_PTS[1][1]],
+            [self.b2[2], PLAT_AUG_PTS[1][2]], 'b')
+        ax.plot(
+            [self.b3[0], PLAT_AUG_PTS[2][0]],
+            [self.b3[1], PLAT_AUG_PTS[2][1]],
+            [self.b3[2], PLAT_AUG_PTS[2][2]], 'b')
+        ax.plot(
+            [self.b4[0], PLAT_AUG_PTS[3][0]],
+            [self.b4[1], PLAT_AUG_PTS[3][1]],
+            [self.b4[2], PLAT_AUG_PTS[3][2]], 'b')
+        ax.plot(
+            [self.b5[0], PLAT_AUG_PTS[4][0]],
+            [self.b5[1], PLAT_AUG_PTS[4][1]],
+            [self.b5[2], PLAT_AUG_PTS[4][2]], 'b')
+        ax.plot(
+            [self.b6[0], PLAT_AUG_PTS[5][0]],
+            [self.b6[1], PLAT_AUG_PTS[5][1]],
+            [self.b6[2], PLAT_AUG_PTS[5][2]], 'b')
+
+        # Plot strut endpoints
+
+        ax.plot(
+            [self.b1[0], PLAT_AUG_PTS[0][0]],
+            [self.b1[1], PLAT_AUG_PTS[0][1]],
+            [self.b1[2], PLAT_AUG_PTS[0][2]], 'ko')
+        ax.plot(
+            [self.b2[0], PLAT_AUG_PTS[1][0]],
+            [self.b2[1], PLAT_AUG_PTS[1][1]],
+            [self.b2[2], PLAT_AUG_PTS[1][2]], 'ko')
+        ax.plot(
+            [self.b3[0], PLAT_AUG_PTS[2][0]],
+            [self.b3[1], PLAT_AUG_PTS[2][1]],
+            [self.b3[2], PLAT_AUG_PTS[2][2]], 'ko')
+        ax.plot(
+            [self.b4[0], PLAT_AUG_PTS[3][0]],
+            [self.b4[1], PLAT_AUG_PTS[3][1]],
+            [self.b4[2], PLAT_AUG_PTS[3][2]], 'ko')
+        ax.plot(
+            [self.b5[0], PLAT_AUG_PTS[4][0]],
+            [self.b5[1], PLAT_AUG_PTS[4][1]],
+            [self.b5[2], PLAT_AUG_PTS[4][2]], 'ko')
+        ax.plot(
+            [self.b6[0], PLAT_AUG_PTS[5][0]],
+            [self.b6[1], PLAT_AUG_PTS[5][1]],
+            [self.b6[2], PLAT_AUG_PTS[5][2]], 'ko')
+
+        # Plot Platform
+
+        px = [PLAT_AUG_PTS[0][0], PLAT_AUG_PTS[1][0], PLAT_AUG_PTS[2][0], PLAT_AUG_PTS[3][0],
+              PLAT_AUG_PTS[4][0], PLAT_AUG_PTS[5][0], PLAT_AUG_PTS[0][0]]
+        py = [PLAT_AUG_PTS[0][1], PLAT_AUG_PTS[1][1], PLAT_AUG_PTS[2][1], PLAT_AUG_PTS[3][1],
+              PLAT_AUG_PTS[4][1], PLAT_AUG_PTS[5][1], PLAT_AUG_PTS[0][1]]
+        pz = [PLAT_AUG_PTS[0][2], PLAT_AUG_PTS[1][2], PLAT_AUG_PTS[2][2], PLAT_AUG_PTS[3][2],
+              PLAT_AUG_PTS[4][2], PLAT_AUG_PTS[5][2], PLAT_AUG_PTS[0][2]]
+
+        ax.plot(px, py, pz, 'ko')
+        ax.plot(px, py, pz, 'k')
+
+        plt.show()
 
     ### Private methods
+
+    def getPlatformAugmentedPoints(self):
+        C_ALPHA = cos(self.pitch)
+        S_ALPHA = sin(self.pitch)
+
+        C_BETA = cos(self.roll)
+        S_BETA = sin(self.roll)
+
+        C_GAMMA = cos(self.yaw)
+        S_GAMMA = sin(self.yaw)
+
+        ROT_POT_MTX = np.array([
+            [C_GAMMA * C_BETA, C_GAMMA * S_BETA * S_ALPHA - S_GAMMA * C_ALPHA, C_GAMMA * S_BETA * C_ALPHA + S_GAMMA * S_ALPHA],
+            [S_GAMMA * C_BETA, S_GAMMA * S_BETA * S_ALPHA + C_GAMMA * C_ALPHA, S_GAMMA * S_BETA * C_ALPHA - C_GAMMA * S_ALPHA],
+            [-S_BETA, C_BETA * S_ALPHA, C_BETA * C_ALPHA]
+        ])
+
+        PLAT_PTS = np.array([self.p1, self.p2, self.p3, self.p4, self.p5, self.p6])
+
+        A = np.array([self.x, self.y, self.z, self.pitch, self.roll, self.yaw]).transpose()
+
+        X_NOT = A[0:3] - PLAT_PTS
+
+        PLAT_AUG_PTS = np.zeros(PLAT_PTS.shape)
+
+        # Compute rotation
+        for i in xrange(6):
+            PLAT_AUG_PTS[i, :] = np.dot(ROT_POT_MTX, PLAT_PTS[i, :])
+
+        # Compute translation
+        for i in xrange(6):
+            PLAT_AUG_PTS[i, 0] = PLAT_AUG_PTS[i, 0] + self.x
+            PLAT_AUG_PTS[i, 1] = PLAT_AUG_PTS[i, 1] + self.y
+            PLAT_AUG_PTS[i, 2] = PLAT_AUG_PTS[i, 2] + self.z
+
+        print(PLAT_PTS)
+        print(PLAT_AUG_PTS)
+
+        return PLAT_AUG_PTS

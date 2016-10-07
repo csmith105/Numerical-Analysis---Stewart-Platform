@@ -1,4 +1,4 @@
-from StewartPlatform import StewartPlatform2D
+from StewartPlatform import StewartPlatform2D, StewartPlatform3D
 
 from math import *
 import matplotlib.pyplot as plt
@@ -165,14 +165,35 @@ def test7():
 
     print("PASS")
 
+def test8():
+
+    stewie = StewartPlatform3D(5, 1, 7)
+
+    stewie.setB(7)
+
+    stewie.setPlatformPosition(0, 0, 5)
+    stewie.plotPlatform()
+
+    stewie.setPlatformRotation(30, 0, 0)
+    stewie.plotPlatform()
+
+    stewie.setPlatformRotation(0, 30, 0)
+    stewie.plotPlatform()
+
+    stewie.setPlatformRotation(0, 0, 30)
+    stewie.plotPlatform()
+    #stewie.inverseKinematics()
+
 # Run Tests
-test1()
-test2()
-test3()
-test4()
-test5()
-test6()
-test7()
+test8()
+#test1()
+#test2()
+#test3()
+#test4()
+#test5()
+#test6()
+#test7()
+
 
 
 
