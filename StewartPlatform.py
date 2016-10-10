@@ -242,7 +242,8 @@ class StewartPlatform2D:
 
         if theta is None:
             theta = self.theta
-
+        if (self.D(theta) == 0):
+            print 'Error division by zero'
         return self.N1(theta) / self.D(theta)
 
     def y(self, theta = None):
@@ -254,7 +255,8 @@ class StewartPlatform2D:
             theta = self.theta
 
         # TODO: Implement zero checking
-
+        if (self.D(theta) == 0):
+            print 'Error division by zero'
         return self.N2(theta) / self.D(theta)
 
     ### Public methods
